@@ -28,6 +28,11 @@ public class ClienteEntity {
     //campo opcional (pode ser nulo)
 
     @Column(unique = true, nullable = false)
+
+    private String email;
+    private String telefone;
+    //opcional
+    @Column(unique = true)
     //campo obrigatório e único (não pode repetir mas pode ser nulo)
     private String cpf;
 
