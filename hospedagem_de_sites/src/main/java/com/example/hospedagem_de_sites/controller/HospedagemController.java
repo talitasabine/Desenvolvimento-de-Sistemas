@@ -1,13 +1,14 @@
 package com.example.hospedagem_de_sites.controller;
 
-import com.example.hospedagem_de_sites.entity.HospedagemEntity;
+import com.example.hospedagem_de_sites.entity.UsuarioEntity;
 import com.example.hospedagem_de_sites.service.HospedagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/usuarios")
 
 public class HospedagemController {
 
@@ -15,23 +16,23 @@ public class HospedagemController {
     private HospedagemService service;
 
     @GetMapping
-    public List<HospedagemEntity> listarTodos(){
+    public List<UsuarioEntity> listarTodos(){
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public HospedagemEntity buscarPorId(@PathVariable Long id){
+    public UsuarioEntity buscarPorId(@PathVariable Long id){
         return service.buscarPorId(id);
     }
 
     @PostMapping
-    public HospedagemEntity salvar(@RequestBody HospedagemEntity cliente){
-        return service.salvar(cliente);
+    public UsuarioEntity salvar(@RequestBody UsuarioEntity usuario){
+        return service.salvar(usuario);
     }
 
-    @PutMapping("/{id}") // ✅ corrigido
-    public HospedagemEntity atualizar(@PathVariable Long id, @RequestBody HospedagemEntity cliente){
-        return service.atualizar(id, cliente);
+    @PutMapping("/{id}")
+    public UsuarioEntity atualizar(@PathVariable Long id, @RequestBody UsuarioEntity usuario){
+        return service.atualizar(id, usuario);
     }
 
     @DeleteMapping("/{id}")
