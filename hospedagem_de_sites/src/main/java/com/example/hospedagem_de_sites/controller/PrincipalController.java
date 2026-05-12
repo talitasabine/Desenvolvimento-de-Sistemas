@@ -1,7 +1,7 @@
 package com.example.hospedagem_de_sites.controller;
 
 import com.example.hospedagem_de_sites.entity.UsuarioEntity;
-import com.example.hospedagem_de_sites.service.HospedagemService;
+import com.example.hospedagem_de_sites.service.PrincipalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/usuarios")
 
-public class HospedagemController {
+public class PrincipalController {
 
     @Autowired
-    private HospedagemService service;
+    private PrincipalService service;
 
     @GetMapping
     public List<UsuarioEntity> listarTodos(){

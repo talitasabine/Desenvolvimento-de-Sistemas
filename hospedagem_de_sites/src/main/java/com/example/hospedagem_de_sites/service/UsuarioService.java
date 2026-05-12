@@ -1,17 +1,17 @@
 package com.example.hospedagem_de_sites.service;
 
 import com.example.hospedagem_de_sites.entity.UsuarioEntity;
-import com.example.hospedagem_de_sites.repository.HospedagemRepository;
+import com.example.hospedagem_de_sites.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class HospedagemService {
+public class UsuarioService {
 
     @Autowired
-    private HospedagemRepository repository;
+    private UsuarioRepository repository;
 
     public List<UsuarioEntity> listarTodos(){
         return repository.findAll();
