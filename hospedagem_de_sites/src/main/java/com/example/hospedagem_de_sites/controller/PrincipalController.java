@@ -1,42 +1,44 @@
 package com.example.hospedagem_de_sites.controller;
 
-import com.example.hospedagem_de_sites.entity.UsuarioEntity;
+import com.example.hospedagem_de_sites.entity.PrincipalEntity;
 import com.example.hospedagem_de_sites.service.PrincipalService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios")
-
+@RequestMapping("/principal")
 public class PrincipalController {
 
     @Autowired
     private PrincipalService service;
 
     @GetMapping
-    public List<UsuarioEntity> listarTodos(){
+    public List<PrincipalEntity> listarTodos() {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public UsuarioEntity buscarPorId(@PathVariable Long id){
+    public PrincipalEntity buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
     @PostMapping
-    public UsuarioEntity salvar(@RequestBody UsuarioEntity usuario){
-        return service.salvar(usuario);
+    public PrincipalEntity salvar(@RequestBody PrincipalEntity principal) {
+        return service.salvar(principal);
     }
 
     @PutMapping("/{id}")
-    public UsuarioEntity atualizar(@PathVariable Long id, @RequestBody UsuarioEntity usuario){
-        return service.atualizar(id, usuario);
+    public PrincipalEntity atualizar(@PathVariable Long id,
+                                     @RequestBody PrincipalEntity principal) {
+
+        return service.atualizar(id, principal);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id){
+    public void deletar(@PathVariable Long id) {
         service.deletar(id);
     }
 }

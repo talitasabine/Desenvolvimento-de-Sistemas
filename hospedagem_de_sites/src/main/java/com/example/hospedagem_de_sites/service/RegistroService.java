@@ -1,7 +1,8 @@
 package com.example.hospedagem_de_sites.service;
 
-import com.example.hospedagem_de_sites.entity.UsuarioEntity;
+import com.example.hospedagem_de_sites.entity.RegistroEntity;
 import com.example.hospedagem_de_sites.repository.RegistroRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,27 +14,31 @@ public class RegistroService {
     @Autowired
     private RegistroRepository repository;
 
-    public List<UsuarioEntity> listarTodos(){
+    public List<RegistroEntity> listarTodos() {
         return repository.findAll();
     }
 
-    public UsuarioEntity buscarPorId(Long id){
-        return repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public RegistroEntity buscarPorId(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
-    public UsuarioEntity salvar(UsuarioEntity usuario){
-        return repository.save(usuario);
+    public RegistroEntity salvar(RegistroEntity registro) {
+        return repository.save(registro);
     }
 
-    public UsuarioEntity atualizar(Long id, UsuarioEntity usuario){
-        UsuarioEntity existente = buscarPorId(id);
+    public RegistroEntity atualizar(Long id, RegistroEntity registro) {
 
-        existente.setNomeUsuario(usuario.getNomeUsuario());
-        existente.setEmail(usuario.getEmail());
-        existente.setTelefone(usuario.getTelefone());
+        RegistroEntity registroExistente = buscarPorId(id);
 
-        return repository.save(existente);
+        if (registroExistente != null) {
+
+            registroExistente.setUsuario(registro.getUsuario());
+            registroExistente.setStatus(registro.getStatus());
+
+            return repository.save(registroExistente);
+        }
+
+        return null;
     }
 
     public void deletar(Long id) {

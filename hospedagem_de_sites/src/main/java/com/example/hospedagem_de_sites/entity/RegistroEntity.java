@@ -2,6 +2,7 @@ package com.example.hospedagem_de_sites.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +21,7 @@ public class RegistroEntity {
     @Column(nullable = false)
     private LocalDateTime dataRegistro;
 
-    @Column(length = 50)
+    @Column(nullable = false, length = 50)
     private String status;
 
     @PrePersist

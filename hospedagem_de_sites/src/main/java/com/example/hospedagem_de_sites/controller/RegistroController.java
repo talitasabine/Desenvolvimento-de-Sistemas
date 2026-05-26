@@ -1,42 +1,44 @@
 package com.example.hospedagem_de_sites.controller;
 
-import com.example.hospedagem_de_sites.entity.UsuarioEntity;
+import com.example.hospedagem_de_sites.entity.RegistroEntity;
 import com.example.hospedagem_de_sites.service.RegistroService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios")
-
+@RequestMapping("/registro")
 public class RegistroController {
 
     @Autowired
     private RegistroService service;
 
     @GetMapping
-    public List<UsuarioEntity> listarTodos(){
+    public List<RegistroEntity> listarTodos() {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public UsuarioEntity buscarPorId(@PathVariable Long id){
+    public RegistroEntity buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
     @PostMapping
-    public UsuarioEntity salvar(@RequestBody UsuarioEntity usuario){
-        return service.salvar(usuario);
+    public RegistroEntity salvar(@RequestBody RegistroEntity registro) {
+        return service.salvar(registro);
     }
 
     @PutMapping("/{id}")
-    public UsuarioEntity atualizar(@PathVariable Long id, @RequestBody UsuarioEntity usuario){
-        return service.atualizar(id, usuario);
+    public RegistroEntity atualizar(@PathVariable Long id,
+                                    @RequestBody RegistroEntity registro) {
+
+        return service.atualizar(id, registro);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id){
+    public void deletar(@PathVariable Long id) {
         service.deletar(id);
     }
 }

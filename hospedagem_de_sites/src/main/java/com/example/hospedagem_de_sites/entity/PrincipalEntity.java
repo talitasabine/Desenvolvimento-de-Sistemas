@@ -2,6 +2,7 @@ package com.example.hospedagem_de_sites.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data

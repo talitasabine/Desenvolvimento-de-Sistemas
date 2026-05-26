@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de clientes em JavaScript</title>
+</head>
+    <style>
+  /* =========================
+        ESTILO GERAL DA PÁGINA
+     ========================= */
+  body {
+    font-family: Arial, sans-serif;
+    /* Define a fonte da página */
+
+    background-color: #f4f6f8;
+    /* Define cor de fundo */
+
+    margin: 0;
+    /* Remove margens externas */
+
+    padding: 30px;
+    /* Espaçamento interno */
+    }
+
+  /* =========================
+        CONTAINER PRINCIPAL
+     ========================= */
+  .container {
+    max-width: 1100px;
+    /* Largura máxima da caixa */
+
+    margin: auto;
+    /* Centraliza na tela */
+
+    background: white;
+    /* Fundo branco */
+
+    padding: 25px;
+    /* Espaço interno */
+
+    border-radius: 10px;
+    /* Bordas arredondadas */
+
+    box-shadow: 0 0 10px #ccc;
+  }
+    /* Sombra */
+    /* ====================================
+        TÍTULO
+   ==================================== */
+h1 {
+  text-align: center;
+  /* Centraliza texto */
+
+  color: #2c3e50;
+  /* Cor do título */
+  }
+
+/* ====================================
+        FORMULÁRIO
+   ==================================== */
+form {
+  display: grid;
+  /* Usa sistema de grade */
+
+  grid-template-columns: repeat(2, 1fr);
+  /* Cria 2 colunas */
+
+  gap: 15px;
+  /* Espaço entre campos */
+
+  margin-bottom: 30px;
+  /* Espaço abaixo do formulário */
+  }
+
+/* ====================================
+        CAMPOS INPUT
+   ==================================== */
+input {
+  padding: 10px;
+  /* Espaço interno */
+
+  border: 1px solid #bbb;
+  /* Borda */
+
+  border-radius: 5px;
+  /* Bordas arredondadas */
+  }
+
+/* ====================================
+BOTÃO
+==================================== */
+button {
+  width: 180px;
+  /* Largura menor */
+
+  padding: 12px;
+  /* Espaçamento interno */
+
+  background-color: #2a4d69;
+  /* Cor de fundo */
+
+  color: white;
+  /* Cor do texto */
+
+  border: none;
+  /* Remove borda */
+
+  border-radius: 5px;
+  /* Bordas arredondadas */
+
+  cursor: pointer;
+  /* Cursor mãozinha */
+
+  font-weight: bold;
+  /* Texto em negrito */
+
+  grid-column: 1;
+  /* Coloca o botão na primeira coluna */
+
+  justify-self: start;
+  /* Alinha à esquerda */
+  }
+
+/* ====================================
+        EFEITO HOVER
+   ==================================== */
+button:hover {
+  background-color: #1f3a50;
+  }
+
+/* ====================================
+        TABELA
+   ==================================== */
+table {
+  width: 100%;
+  /* Ocupa largura total */
+
+  border-collapse: collapse;
+  /* Junta bordas */
+
+  font-size: 14px;
+  }
+
+/* ====================================
+        CABEÇALHO DA TABELA
+   ==================================== */
+th {
+  background-color: #2a4d69;
+
+  color: white;
+
+  padding: 10px;
+  }
+
+/* ====================================
+        CÉLULAS
+   ==================================== */
+td {
+  padding: 8px;
+
+  border: 1px solid #ddd;
+
+  text-align: center;
+  }
+
+/* ====================================
+        LINHAS PARES
+   ==================================== */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+  }
+
+/* ====================================
+        LINK EDITAR
+   ==================================== */
+.editar {
+  color: #2980b9;
+  cursor: pointer;
+
+    font-weight: bold;
+    }
+
+  /* ====================================
+          LINK EXCLUIR
+     ==================================== */
+  .excluir {
+    color: #c0392b;
+
+    cursor: pointer;
+
+    font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Cadastro de Clientes JavaScript</h1>
+
+    <form id="formCliente">
+      <input type="hidden" id="id" />
+
+      <input type="text" id="nome" placeholder="Nome" required />
+      <input type="text" id="sobrenome" placeholder="Sobrenome" />
+
+      <input type="email" id="email" placeholder="E-mail" required />
+
+      <input type="text" id="telefone" placeholder="Telefone" />
+
+      <input type="text" id="cpf" placeholder="CPF" />
+
+      <input type="text" id="cep" placeholder="CEP" />
+
+      <input type="text" id="endereco" placeholder="Endereço" />
+
+      <input type="text" id="cidade" placeholder="Cidade" />
+
+      <input type="text" id="estado" placeholder="Estado" />
+
+      <button type="submit">Salvar Cliente</button>
+    </form>
+
+    <table>
+      <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Sobrenome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th>CPF</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>Editar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+
+      <tbody id="tabelaClientes"></tbody>
+    </table>
+  </div>
+
+  <script>
+    // ====================================
+    // CONST
+    // ====================================
+
+    /* const significa:
+
+      "constant" = constante
+    */
+
+    const api = "/api/clientes";
+
+    async function listarClientes(){
+
+      const response = await fetch(api);
+      const clientes = await response.json();
+    }
+</body>
+</html>
+name
