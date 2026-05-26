@@ -9,36 +9,49 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/api/usuario")
+@CrossOrigin(origins = "*")
+
 public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
 
+    
     @GetMapping
     public List<UsuarioEntity> listarTodos() {
+
         return service.listarTodos();
     }
 
+    
     @GetMapping("/{id}")
     public UsuarioEntity buscarPorId(@PathVariable Long id) {
+
         return service.buscarPorId(id);
     }
 
+    
     @PostMapping
     public UsuarioEntity salvar(@RequestBody UsuarioEntity usuario) {
+
         return service.salvar(usuario);
     }
 
+    
     @PutMapping("/{id}")
-    public UsuarioEntity atualizar(@PathVariable Long id,
-                                   @RequestBody UsuarioEntity usuario) {
+    public UsuarioEntity atualizar(
+            @PathVariable Long id,
+            @RequestBody UsuarioEntity usuario
+    ) {
 
         return service.atualizar(id, usuario);
     }
 
+    
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
+
         service.deletar(id);
     }
 }

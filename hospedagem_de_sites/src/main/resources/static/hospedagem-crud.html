@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Hospedagem de Sites</title>
+</head>
+    <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 30px;
+    }
+
+  .container {
+    max-width: 1100px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  }
+
+
+h2 {
+  color: #2a4d69;
+  border-bottom: 2px solid #2a4d69;
+  padding-bottom: 5px;
+  margin-top: 40px;
+  }
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+  }
+
+input, select, textarea {
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  }
+
+button {
+  width: 180px;
+  padding: 12px;
+  background-color: #2a4d69;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  grid-column: 1;
+  justify-self: start;
+  }
+
+button:hover {
+  background-color: #1f3a50;
+  }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 40px;
+  }
+
+th {
+  background-color: #2a4d69;
+  color: white;
+  padding: 10px;
+  }
+
+td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+  }
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+  }
+
+.editar {
+  color: #2980b9;
+  cursor: pointer;
+  font-weight: bold;
+  }
+
+.excluir {
+  color: #c0392b;
+  cursor: pointer;
+  font-weight: bold;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <h1>Sistema de Hospedagem de Sites</h1>
+
+
+    <h2>Principal</h2>
+    <form id="formPrincipal">
+      <input type="hidden" id="idde" />
+      <input type="text" id="nome" placeholder="Nome" required />
+      <input type="text" id="descricao" placeholder="Descrição" />
+      <input type="date" id="dataCadastro" />
+      <button type="submit">Salvar</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Data Cadastro</th>
+          <th>Editar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaPrincipal"></tbody>
+    </table>
+
+    <h2>Usuário</h2>
+    <form id="formUsuario">
+      <input type="hidden" id="idUsuario" />
+      <input type="text" id="nomeUsuario" placeholder="Nome do Usuário" required />
+      <input type="email" id="email" placeholder="E-mail" required />
+      <input type="text" id="telefone" placeholder="Telefone" />
+      <button type="submit">Salvar</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome Usuário</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th>Editar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaUsuario"></tbody>
+    </table>
+
+
+    <h2>Registro</h2>
+    <form id="formRegistro">
+      <input type="hidden" id="idRegistro" />
+      <input type="number" id="idUsuarioFK" placeholder="ID do Usuário" required />
+      <input type="date" id="dataRegistro" />
+      <select id="status">
+        <option value="">Status</option>
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+        <option value="pendente">Pendente</option>
+      </select>
+      <button type="submit">Salvar</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ID Usuário</th>
+          <th>Data Registro</th>
+          <th>Status</th>
+          <th>Editar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaRegistro"></tbody>
+    </table>
+
+  </div>
+
+  <script>
+
+
+    const apiPrincipal = "http://localhost:8080/api/principal";
+    const apiUsuario   = "http://localhost:8080/api/usuario";
+    const apiRegistro  = "http://localhost:8080/api/registro";
+   
+
+    async function listarPrincipal() {
+      const response = await fetch(apiPrincipal);
+      const dados = await response.json();
+      const tabela = document.getElementById("tabelaPrincipal");
+      tabela.innerHTML = "";
+      dados.forEach((item) => {
+        tabela.innerHTML += `
+          <tr>
+            <td>${item.idde}</td>
+            <td>${item.nome}</td>
+            <td>${item.descricao}</td>
+            <td>${item.dataCadastro}</td>
+            <td><span class="editar" onclick="editarPrincipal(${item.idde})">Editar</span></td>
+            <td><span class="excluir" onclick="excluirPrincipal(${item.idde})">Excluir</span></td>
+          </tr>`;
+      });
+    }
+
+    async function listarUsuario() {
+      const response = await fetch(apiUsuario);
+      const dados = await response.json();
+      const tabela = document.getElementById("tabelaUsuario");
+      tabela.innerHTML = "";
+      dados.forEach((item) => {
+        tabela.innerHTML += `
+          <tr>
+            <td>${item.idUsuario}</td>
+            <td>${item.nomeUsuario}</td>
+            <td>${item.email}</td>
+            <td>${item.telefone}</td>
+            <td><span class="editar" onclick="editarUsuario(${item.idUsuario})">Editar</span></td>
+            <td><span class="excluir" onclick="excluirUsuario(${item.idUsuario})">Excluir</span></td>
+          </tr>`;
+      });
+    }
+
+    async function listarRegistro() {
+      const response = await fetch(apiRegistro);
+      const dados = await response.json();
+      const tabela = document.getElementById("tabelaRegistro");
+      tabela.innerHTML = "";
+      dados.forEach((item) => {
+        tabela.innerHTML += `
+          <tr>
+            <td>${item.idRegistro}</td>
+            <td>${item.usuario ? item.usuario.idUsuario : item.idUsuario}</td>
+            <td>${item.dataRegistro}</td>
+            <td>${item.status}</td>
+            <td><span class="editar" onclick="editarRegistro(${item.idRegistro})">Editar</span></td>
+            <td><span class="excluir" onclick="excluirRegistro(${item.idRegistro})">Excluir</span></td>
+          </tr>`;
+      });
+    }
+
+
+    document.getElementById("formPrincipal").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const id = document.getElementById("idde").value;
+      const dados = {
+        nome:         document.getElementById("nome").value,
+        descricao:    document.getElementById("descricao").value,
+        dataCadastro: document.getElementById("dataCadastro").value,
+      };
+      if (id === "") {
+        await fetch(apiPrincipal, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+      } else {
+        await fetch(`${apiPrincipal}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+      }
+      document.getElementById("formPrincipal").reset();
+      document.getElementById("idde").value = "";
+      listarPrincipal();
+    });
+
+
+    document.getElementById("formUsuario").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const id = document.getElementById("idUsuario").value;
+      const dados = {
+        nomeUsuario: document.getElementById("nomeUsuario").value,
+        email:       document.getElementById("email").value,
+        telefone:    document.getElementById("telefone").value,
+      };
+      if (id === "") {
+        await fetch(apiUsuario, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+      } else {
+        await fetch(`${apiUsuario}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+      }
+      document.getElementById("formUsuario").reset();
+      document.getElementById("idUsuario").value = "";
+      listarUsuario();
+    });
+
+
+    document.getElementById("formRegistro").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const id = document.getElementById("idRegistro").value;
+      const dados = {
+        usuario: { idUsuario: document.getElementById("idUsuarioFK").value },
+        dataRegistro: document.getElementById("dataRegistro").value,
+        status:       document.getElementById("status").value,
+      };
+      if (id === "") {
+        await fetch(apiRegistro, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+      } else {
+        await fetch(`${apiRegistro}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+      }
+      document.getElementById("formRegistro").reset();
+      document.getElementById("idRegistro").value = "";
+      listarRegistro();
+    });
+
+
+    async function editarPrincipal(id) {
+      const response = await fetch(`${apiPrincipal}/${id}`);
+      const item = await response.json();
+      document.getElementById("idde").value         = item.idde;
+      document.getElementById("nome").value         = item.nome;
+      document.getElementById("descricao").value    = item.descricao;
+      document.getElementById("dataCadastro").value = item.dataCadastro;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function editarUsuario(id) {
+      const response = await fetch(`${apiUsuario}/${id}`);
+      const item = await response.json();
+      document.getElementById("idUsuario").value   = item.idUsuario;
+      document.getElementById("nomeUsuario").value = item.nomeUsuario;
+      document.getElementById("email").value       = item.email;
+      document.getElementById("telefone").value    = item.telefone;
+      document.getElementById("formUsuario").scrollIntoView({ behavior: "smooth" });
+    }
+
+    async function editarRegistro(id) {
+      const response = await fetch(`${apiRegistro}/${id}`);
+      const item = await response.json();
+      document.getElementById("idRegistro").value   = item.idRegistro;
+      document.getElementById("idUsuarioFK").value  = item.usuario ? item.usuario.idUsuario : item.idUsuario;
+      document.getElementById("dataRegistro").value = item.dataRegistro;
+      document.getElementById("status").value       = item.status;
+      document.getElementById("formRegistro").scrollIntoView({ behavior: "smooth" });
+    }
+
+
+    async function excluirPrincipal(id) {
+      if (confirm("Deseja excluir este item?")) {
+        await fetch(`${apiPrincipal}/${id}`, { method: "DELETE" });
+        listarPrincipal();
+      }
+    }
+
+    async function excluirUsuario(id) {
+      if (confirm("Deseja excluir este usuário?")) {
+        await fetch(`${apiUsuario}/${id}`, { method: "DELETE" });
+        listarUsuario();
+      }
+    }
+
+    async function excluirRegistro(id) {
+      if (confirm("Deseja excluir este registro?")) {
+        await fetch(`${apiRegistro}/${id}`, { method: "DELETE" });
+        listarRegistro();
+      }
+    }
+
+
+    listarPrincipal();
+    listarUsuario();
+    listarRegistro();
+
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@ package com.example.hospedagem_de_sites.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -19,13 +19,13 @@ public class RegistroEntity {
     private UsuarioEntity usuario;
 
     @Column(nullable = false)
-    private LocalDateTime dataRegistro;
+    private LocalDate dataRegistro;
 
     @Column(nullable = false, length = 50)
     private String status;
 
     @PrePersist
     public void prePersist() {
-        this.dataRegistro = LocalDateTime.now();
+        this.dataRegistro = LocalDate.now();
     }
 }

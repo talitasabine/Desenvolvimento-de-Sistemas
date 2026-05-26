@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/registro")
+@RequestMapping("/api/registro")
+
+@CrossOrigin(origins = "*")
+
 public class RegistroController {
 
     @Autowired
@@ -17,28 +20,34 @@ public class RegistroController {
 
     @GetMapping
     public List<RegistroEntity> listarTodos() {
+
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
     public RegistroEntity buscarPorId(@PathVariable Long id) {
+
         return service.buscarPorId(id);
     }
 
     @PostMapping
     public RegistroEntity salvar(@RequestBody RegistroEntity registro) {
+
         return service.salvar(registro);
     }
 
     @PutMapping("/{id}")
-    public RegistroEntity atualizar(@PathVariable Long id,
-                                    @RequestBody RegistroEntity registro) {
+    public RegistroEntity atualizar(
+            @PathVariable Long id,
+            @RequestBody RegistroEntity registro
+    ) {
 
         return service.atualizar(id, registro);
     }
 
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
+
         service.deletar(id);
     }
 }
