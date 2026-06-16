@@ -109,6 +109,12 @@ tr:nth-child(even) {
 
 
     <h2>Principal</h2>
+    <div style="margin-bottom:15px;">
+      <input type="number" id="buscarPrincipalId" placeholder="Buscar por ID">
+      <button type="button" onclick="buscarPrincipal()">Buscar</button>
+      <button type="button" onclick="listarPrincipal()">Listar Todos</button>
+    </div>
+
     <form id="formPrincipal">
       <input type="hidden" id="idde" />
       <input type="text" id="nome" placeholder="Nome" required />
@@ -132,6 +138,12 @@ tr:nth-child(even) {
     </table>
 
     <h2>Usuário</h2>
+    <div style="margin-bottom:15px;">
+      <input type="number" id="buscarUsuarioId" placeholder="Buscar por ID">
+      <button type="button" onclick="buscarUsuario()">Buscar</button>
+      <button type="button" onclick="listarUsuario()">Listar Todos</button>
+    </div>
+
     <form id="formUsuario">
       <input type="hidden" id="idUsuario" />
       <input type="text" id="nomeUsuario" placeholder="Nome do Usuário" required />
@@ -156,6 +168,12 @@ tr:nth-child(even) {
 
 
     <h2>Registro</h2>
+    <div style="margin-bottom:15px;">
+      <input type="number" id="buscarRegistroId" placeholder="Buscar por ID">
+      <button type="button" onclick="buscarRegistro()">Buscar</button>
+      <button type="button" onclick="listarRegistro()">Listar Todos</button>
+    </div>
+
     <form id="formRegistro">
       <input type="hidden" id="idRegistro" />
       <input type="number" id="idUsuarioFK" placeholder="ID do Usuário" required />
@@ -356,7 +374,95 @@ tr:nth-child(even) {
         listarRegistro();
       }
     }
+async function buscarPrincipal() {
 
+    const id = document.getElementById("buscarPrincipalId").value;
+
+    if (!id) {
+        alert("Digite um ID");
+        return;
+    }
+
+    const response = await fetch(`${apiPrincipal}/${id}`);
+
+    if (!response.ok) {
+        alert("Registro não encontrado");
+        return;
+    }
+
+    const item = await response.json();
+
+    document.getElementById("tabelaPrincipal").innerHTML = `
+        <tr>
+            <td>${item.idde}</td>
+            <td>${item.nome}</td>
+            <td>${item.descricao}</td>
+            <td>${item.dataCadastro}</td>
+            <td><span class="editar" onclick="editarPrincipal(${item.idde})">Editar</span></td>
+            <td><span class="excluir" onclick="excluirPrincipal(${item.idde})">Excluir</span></td>
+        </tr>
+    `;
+}
+
+async function buscarUsuario() {
+
+    const id = document.getElementById("buscarUsuarioId").value;
+
+    if (!id) {
+        alert("Digite um ID");
+        return;
+    }
+
+    const response = await fetch(`${apiUsuario}/${id}`);
+
+    if (!response.ok) {
+        alert("Usuário não encontrado");
+        return;
+    }
+
+    const item = await response.json();
+
+    document.getElementById("tabelaUsuario").innerHTML = `
+        <tr>
+            <td>${item.idUsuario}</td>
+            <td>${item.nomeUsuario}</td>
+            <td>${item.email}</td>
+            <td>${item.telefone}</td>
+            <td><span class="editar" onclick="editarUsuario(${item.idUsuario})">Editar</span></td>
+            <td><span class="excluir" onclick="excluirUsuario(${item.idUsuario})">Excluir</span></td>
+        </tr>
+    `;
+}
+
+  async function buscarRegistro() {
+
+      const id = document.getElementById("buscarRegistroId").value;
+
+      if (!id) {
+          alert("Digite um ID");
+          return;
+      }
+
+      const response = await fetch(`${apiRegistro}/${id}`);
+
+      if (!response.ok) {
+          alert("Registro não encontrado");
+          return;
+      }
+
+      const item = await response.json();
+
+      document.getElementById("tabelaRegistro").innerHTML = `
+          <tr>
+              <td>${item.idRegistro}</td>
+              <td>${item.usuario ? item.usuario.idUsuario : ""}</td>
+              <td>${item.dataRegistro}</td>
+              <td>${item.status}</td>
+              <td><span class="editar" onclick="editarRegistro(${item.idRegistro})">Editar</span></td>
+              <td><span class="excluir" onclick="excluirRegistro(${item.idRegistro})">Excluir</span></td>
+          </tr>
+      `;
+  }
 
     listarPrincipal();
     listarUsuario();

@@ -206,7 +206,7 @@ src
 CREATE DATABASE hospedagem_crud;
 ```
 
-3. Abrir o projeto no VS Code ou IntelliJ.
+3. Abrir o projeto no VS Code.
 4. Executar a classe:
 
 ```text
